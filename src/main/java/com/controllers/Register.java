@@ -1,7 +1,6 @@
 package com.controllers;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -13,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.app.Admin;
 import com.app.Guest;
 import com.db.Database;
+import com.dtos.User;
 import com.google.gson.Gson;
 
 @WebServlet("/register")
 @MultipartConfig
 public class Register extends HttpServlet {
-    LinkedHashMap<String, String> resp;
     Gson gson = new Gson();
 
     @Override
@@ -32,35 +31,32 @@ public class Register extends HttpServlet {
         int age = Integer.parseInt(req.getParameter("age"));
         String sex = req.getParameter("sex");
         String password = req.getParameter("password");
-
+        User user = null;
         if (role.equals("Admin")) {
-            resp = new LinkedHashMap<>();
-            Admin user = new Admin();
-            user.register(firstName, lastName, username, password, email, sex, phoneNumber, age, role);
-            Database.insert(user.getUsername(), user);
-            resp.put("message", "new Admin user Created!");
-            this.sendResponse(req, res, HttpServletResponse.SC_CREATED);
-        } else if (role.equals("Guest")) {
-            resp = new LinkedHashMap<>();
-            Guest user = new Guest();
-            user.register(firstName, lastName, username, password, email, sex, phoneNumber, age, role);
-            Database.insert(user.getUsername(), user);
-            resp.put("message", "new Guest user Created!");
-            this.sendResponse(req, res, HttpServletResponse.SC_CREATED);
+            user = new Admin();
         } else {
-            resp = new LinkedHashMap<>();
-            resp.put("message", "Invalid user type");
-            this.sendResponse(req, res, HttpServletResponse.SC_BAD_REQUEST);
+            user = new Guest();
+        }
+        try {
+            user.register(firstName, lastName, username, password, email, sex, phoneNumber, age, role);
+            Database.insert(user.getUsername(), user);
+            Gson gson = new Gson();
+            String json = gson.toJson(new Response<User>(200, "new  user was Created!", user));
+            res.setContentType("application/json");
+            res.setCharacterEncoding("UTF-8");
+            res.getWriter().write(json);
+        } catch (Exception e) {
+            gson = new Gson();
+            this.sendResponse(req, res, e.getMessage());
         }
 
     }
 
-    private void sendResponse(HttpServletRequest req, HttpServletResponse res, int status) throws IOException {
+    private void sendResponse(HttpServletRequest req, HttpServletResponse res, String msg) throws IOException {
         Gson gson = new Gson();
-        String json = gson.toJson(this.resp);
+        String json = gson.toJson(new Response<Object>(400, msg, null));
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
         res.getWriter().write(json);
     }
-
 }

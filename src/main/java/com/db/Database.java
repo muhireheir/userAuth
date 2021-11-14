@@ -1,12 +1,11 @@
 package com.db;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 import com.dtos.*;
 
 public class Database {
 
-    static Map<String, User> database = new LinkedHashMap<String, User>();
+    static LinkedHashMap<String, User> database = new LinkedHashMap<String, User>();
 
     public static void insert(String id, User row) {
 
@@ -17,6 +16,13 @@ public class Database {
 
         return database.get(name);
 
+    }
+
+    public static boolean userExists(String username) {
+        if (database.containsKey(username)) {
+            return true;
+        }
+        return false;
     }
 
 }

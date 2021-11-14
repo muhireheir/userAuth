@@ -1,6 +1,10 @@
 com/controllers/Login.class
+com/controllers/Response.class
 com/dtos/User.class
-com/db/Database.class
 com/app/Admin.class
+com/controllers/RegisterFilter.class
+com/controllers/LoginFilter.class
+com/validators/ValidateInput.class
+com/db/Database.class
 com/app/Guest.class
 com/controllers/Register.class

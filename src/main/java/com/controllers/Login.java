@@ -1,8 +1,6 @@
 package com.controllers;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
@@ -15,7 +13,7 @@ import com.google.gson.Gson;
 @WebServlet("/login")
 @MultipartConfig
 public class Login extends HttpServlet {
-    LinkedHashMap<String, String> resp;
+
     Gson gson = new Gson();
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -26,31 +24,30 @@ public class Login extends HttpServlet {
             String role = user.getRole();
             if (role.equals("Admin")) {
                 Admin admin = (Admin) user;
-
-                this.resp = new LinkedHashMap<>();
-                this.resp.put("message", admin.login(password));
-                this.sendResponse(req, res, HttpServletResponse.SC_UNAUTHORIZED);
+                admin.login(password);
+                String json = gson.toJson(new Response<User>(200, "Logged In", user));
+                res.setContentType("application/json");
+                res.setCharacterEncoding("UTF-8");
+                res.getWriter().write(json);
             }
             if (role.equals("Guest")) {
                 Guest guest = (Guest) user;
-                this.resp = new LinkedHashMap<>();
-                this.resp.put("message", guest.login(password));
-                this.sendResponse(req, res, HttpServletResponse.SC_UNAUTHORIZED);
+                guest.login(password);
+                String json = gson.toJson(new Response<User>(200, "Logged In", user));
+                res.setContentType("application/json");
+                res.setCharacterEncoding("UTF-8");
+                res.getWriter().write(json);
 
             }
-
         } else {
-            this.resp = new LinkedHashMap<>();
-            this.resp.put("message", "Incorrect username or password");
-            this.sendResponse(req, res, HttpServletResponse.SC_UNAUTHORIZED);
+            this.sendResponse(req, res, "Incorrect username or password");
         }
     }
 
-    private void sendResponse(HttpServletRequest req, HttpServletResponse res, int status) throws IOException {
-        String json = gson.toJson(this.resp);
+    private void sendResponse(HttpServletRequest req, HttpServletResponse res, String msg) throws IOException {
+        String json = gson.toJson(new Response<Object>(400, msg, null));
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
-        res.setStatus(status);
         res.getWriter().write(json);
     }
 

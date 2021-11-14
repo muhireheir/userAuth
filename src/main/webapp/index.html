@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+	<link rel="stylesheet" href="./assets/style.css" />
+	<title>Register</title>
+</head>
+<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+
+<body>
+	<form class="form registerForm">
+		<h3>Registration Form</h3>
+		<div class="icondiv">
+			<span class="iconify" data-icon="topcoat:email" data-inline="false"></span>
+			<input class="name" type="email" name="email" id="" placeholder="Email" /><br />
+		</div>
+		<br />
+		<div class="icondiv">
+			<span class="iconify" data-icon="bi:person-fill"></span>
+			<input class="name" type="text" placeholder="Username" name="username" /><br />
+		</div>
+		<br />
+		<div class="icondiv">
+			<span class="iconify" data-icon="bx:bxs-lock-alt" data-inline="false"></span>
+			<input class="name" type="password" name="password" id="" placeholder="Password" /><br />
+		</div>
+		<br />
+		<div style="display: flex; justify-content: space-between">
+			<div class="icondiv fullname" style="width: 48%">
+				<span class="iconify" data-icon="bi:person-fill" data-inline="false"></span>
+				<input class="name" type="text" placeholder="First Name" name="firstname" /><br />
+			</div>
+			<br />
+			<div class="icondiv fullname" style="width: 48%">
+				<span class="iconify" data-icon="bi:person-fill" data-inline="false"></span>
+				<input class="name" type="text" placeholder="Last Name" name="lastname" /><br />
+			</div>
+		</div>
+		<br />
+		<div class="icondiv">
+			<span class="iconify" data-icon="bi:person-fill"></span>
+			<input class="name" type="number" placeholder="Age" min="1" name="age" /><br />
+		</div>
+		<br />
+		<div class="icondiv">
+			<span class="iconify" data-icon="si-glyph:phone-number" data-inline="false"></span>
+			<input class="name" type="tel" name="phone" id="" placeholder="Phone Number" /><br />
+		</div>
+		<br />
+		<div>
+			<input type="radio" name="gender" value="female" id="" />
+			<label for="">Female</label>
+			<input type="radio" name="gender" value="male" id="" />
+			<label for="">Male</label><br />
+		</div>
+
+		<p>Select your role</p>
+		<input type="radio" name="role" value="Guest" id="" />
+		<label for="">Guest</label>
+		<input type="radio" name="role" value="Admin" id="" />
+		<label for="">Admin</label><br />
+		<button type="submit">Register</button>
+		<p>
+			Already have an account <span><a href="./login.html">Log in</a></span>
+		</p>
+	</form>
+</body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="./assets/signup.js"></script>
+
+</html>

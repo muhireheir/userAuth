@@ -24,6 +24,10 @@ public abstract class User {
         return this.role;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
     protected String passwordMatch(String existing, String userPassword) {
         String passwordWithAge = new StringBuilder(existing.replaceAll("[**]", "")).toString();
         int age = String.valueOf(this.age).length();
@@ -33,6 +37,6 @@ public abstract class User {
         if (userPassword.equals(password)) {
             return this.username;
         }
-        return "Incorrect username or password";
+        throw new IllegalArgumentException("Incorrect username or password");
     }
 }
