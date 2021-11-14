@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 @MultipartConfig
 public class Login extends HttpServlet {
     LinkedHashMap<String, String> resp;
+    Gson gson = new Gson();
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String password = req.getParameter("password");
@@ -23,29 +24,33 @@ public class Login extends HttpServlet {
         User user = Database.fetch(username);
         if (user != null) {
             String role = user.getRole();
+            if (role.equals("Admin")) {
+                Admin admin = (Admin) user;
+
+                this.resp = new LinkedHashMap<>();
+                this.resp.put("message", admin.login(password));
+                this.sendResponse(req, res, HttpServletResponse.SC_UNAUTHORIZED);
+            }
+            if (role.equals("Guest")) {
+                Guest guest = (Guest) user;
+                this.resp = new LinkedHashMap<>();
+                this.resp.put("message", guest.login(password));
+                this.sendResponse(req, res, HttpServletResponse.SC_UNAUTHORIZED);
+
+            }
 
         } else {
-
-            resp.put("message", "user not found");
-            this.sendResponse(req, res, HttpServletResponse.SC_CREATED);
+            this.resp = new LinkedHashMap<>();
+            this.resp.put("message", "Incorrect username or password");
+            this.sendResponse(req, res, HttpServletResponse.SC_UNAUTHORIZED);
         }
-
-        // if (role.equals("Admin")) {
-        // // Admin admin = (Admin) user;
-        // // admin.login(password);
-        // }
-        // if (role.equals("Guest")) {
-        // // Guest guest = (Guest) user;
-        // // guest.login(password);
-        // }
-
     }
 
     private void sendResponse(HttpServletRequest req, HttpServletResponse res, int status) throws IOException {
-        Gson gson = new Gson();
         String json = gson.toJson(this.resp);
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
+        res.setStatus(status);
         res.getWriter().write(json);
     }
 

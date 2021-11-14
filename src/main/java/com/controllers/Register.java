@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 @MultipartConfig
 public class Register extends HttpServlet {
     LinkedHashMap<String, String> resp;
+    Gson gson = new Gson();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

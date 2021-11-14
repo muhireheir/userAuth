@@ -11,7 +11,7 @@ public abstract class User {
     protected int age;
     protected String role;
 
-    public abstract Boolean login(String password);
+    public abstract String login(String password);
 
     public abstract void register(String firstName, String lastname, String username, String password, String email,
             String sex, String phoneNumber, int age, String role);
@@ -24,13 +24,15 @@ public abstract class User {
         return this.role;
     }
 
-    protected boolean passwordMatch(String userPassword) {
-        String age = new StringBuilder(this.age).toString();
-        String decodedPassword = new StringBuilder(userPassword.replaceAll("[**]", "").replace(age, "")).reverse()
-                .toString();
-        if (userPassword.equals(decodedPassword)) {
-            return true;
+    protected String passwordMatch(String existing, String userPassword) {
+        String passwordWithAge = new StringBuilder(existing.replaceAll("[**]", "")).toString();
+        int age = String.valueOf(this.age).length();
+        int passwordLength = passwordWithAge.length();
+        int range = passwordLength - age;
+        String password = new StringBuilder(passwordWithAge.substring(0, range)).reverse().toString();
+        if (userPassword.equals(password)) {
+            return this.username;
         }
-        return false;
+        return "Incorrect username or password";
     }
 }

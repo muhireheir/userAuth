@@ -13,14 +13,9 @@ public class Database {
         database.put(id, row);
     }
 
-    public static User fetch(String username) {
+    public static User fetch(String name) {
 
-        try {
-            return database.get(username);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        return null;
+        return database.get(name);
 
     }
 

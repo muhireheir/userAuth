@@ -1,8 +1,6 @@
 com/controllers/Login.class
 com/dtos/User.class
-com/utils/Password.class
-com/app/Admin.class
-com/utils/Response.class
 com/db/Database.class
+com/app/Admin.class
 com/app/Guest.class
 com/controllers/Register.class

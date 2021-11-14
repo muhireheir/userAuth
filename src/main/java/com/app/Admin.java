@@ -10,12 +10,10 @@ public class Admin extends User {
     }
 
     @Override
-    public Boolean login(String password) {
-        Boolean passwordMatch = this.passwordMatch(password);
-        if (passwordMatch) {
-            return true;
-        }
-        return false;
+    public String login(String password) {
+        String passwordMatch = this.passwordMatch(this.password, password);
+        return passwordMatch;
+
     }
 
     @Override
